@@ -1,5 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        int a = 1;
+        CalendarManager manager = new CalendarManager();
+        manager.run();
     }
 }
