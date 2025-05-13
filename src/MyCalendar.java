@@ -3,19 +3,26 @@ import java.time.*;
 import java.util.Scanner;
 
 public class MyCalendar {
+
+    // Списък с всички събития в календара
     private List<Event> events = new ArrayList<>();
+
+    // Сет от дати, отбелязани като почивни
     private Set<LocalDate> holidays = new HashSet<>();
 
+    // Добавя ново събитие към календара
     public void book(LocalDate date, LocalTime start, LocalTime end, String name, String note) {
         events.add(new Event(date, start, end, name, note));
     }
 
+    //Премахва събитие по дата и час
     public void unbook(LocalDate date, LocalTime start, LocalTime end) {
         events.removeIf(e -> e.getDate().equals(date) &&
                 e.getStartTime().equals(start) &&
                 e.getEndTime().equals(end));
     }
 
+    // Връща списък с всички събития за конкретна дата, подредени по час
     public List<Event> agenda(LocalDate date) {
         List<Event> result = new ArrayList<>();
         for (Event e : events) {
@@ -27,6 +34,7 @@ public class MyCalendar {
         return result;
     }
 
+    // Променя дадено поле на събитие
     public void change(LocalDate date, LocalTime start, LocalTime end, String field, String newValue) {
         for (Event e : events) {
             if (e.getDate().equals(date) &&
@@ -55,6 +63,7 @@ public class MyCalendar {
         }
     }
 
+    // Търси събития по ключова дума (в име или бележка)
     public List<Event> find(String keyword) {
         List<Event> result = new ArrayList<>();
         for (Event e : events) {
@@ -65,10 +74,12 @@ public class MyCalendar {
         return result;
     }
 
+    // Маркира ден като почивен
     public void holiday(LocalDate date) {
         holidays.add(date);
     }
 
+    // Изчислява колко часа заетост има за всеки ден от даден интервал
     public Map<LocalDate, Long> busydays(LocalDate from, LocalDate to) {
         Map<LocalDate, Long> busyHours = new HashMap<>();
         for (LocalDate date = from; !date.isAfter(to); date = date.plusDays(1)) {
@@ -83,6 +94,7 @@ public class MyCalendar {
         return busyHours;
     }
 
+    // Търси първия свободен времеви слот между от и до с дадена продължителност
     public Optional<LocalDateTime[]> findslot(LocalDate fromDate, LocalDate toDate, Duration duration) {
         for (LocalDate date = fromDate; !date.isAfter(toDate); date = date.plusDays(1)) {
             if (holidays.contains(date)) continue;
@@ -100,6 +112,7 @@ public class MyCalendar {
                 }
                 lastEnd = e.getEndTime();
             }
+            // Проверка дали има време след последното събитие до края на деня (17:00)
             if (Duration.between(lastEnd, LocalTime.of(17, 0)).compareTo(duration) >= 0) {
                 return Optional.of(new LocalDateTime[]{
                         LocalDateTime.of(date, lastEnd),
@@ -110,6 +123,7 @@ public class MyCalendar {
         return Optional.empty();
     }
 
+    // Търси свободен слот между два календара
     public Optional<LocalDateTime[]> findslotwith(MyCalendar otherCalendar, LocalDate fromDate, LocalDate toDate, Duration duration) {
         for (LocalDate date = fromDate; !date.isAfter(toDate); date = date.plusDays(1)) {
             if (holidays.contains(date) || otherCalendar.holidays.contains(date)) continue;
@@ -144,6 +158,7 @@ public class MyCalendar {
         return Optional.empty();
     }
 
+    // Обединява текущия календар с друг, като пита потребителя при конфликт
     public void merge(MyCalendar otherCalendar) {
         Scanner scanner = new Scanner(System.in);
         for (Event e : otherCalendar.events) {
@@ -176,6 +191,7 @@ public class MyCalendar {
         }
     }
 
+    // Връща списъка с всички събития (за записване или справки)
     public List<Event> getEvents() {
         return events;
     }

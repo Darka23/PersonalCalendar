@@ -4,13 +4,26 @@ import java.time.LocalTime;
 import java.util.*;
 
 public class CalendarManager {
+
+    // Основен календарен обект, с който работим
     private MyCalendar calendar = new MyCalendar();
+
+    // Път до отворения файл (ако има такъв)
     private String openedFile = null;
+
+    // Флаг дали в момента има отворен файл
     private boolean isOpen = false;
+
+    // Последните подадени аргументи от потребителя
     private String currentArguments = "";
+
+    // Обект за четене от конзолата
     private final Scanner scanner = new Scanner(System.in);
+
+    // Обект, който управлява командите свързани с календара
     private CalendarCommands calendarCommands;
 
+    // Map с основни команди (open, close, save и т.н.)
     private final Map<String, Runnable> commands = new HashMap<>();
 
     public CalendarManager() {
@@ -22,6 +35,7 @@ public class CalendarManager {
         commands.put("exit", this::exit);
     }
 
+    // Извиква съответната команда от CalendarCommands по име
     private void callCalendarCommand(String command, String args) {
         try {
             switch (command) {
@@ -33,6 +47,8 @@ public class CalendarManager {
                 case "holiday" -> calendarCommands.holiday(args);
                 case "busydays" -> calendarCommands.busydays(args);
                 case "findslot" -> calendarCommands.findslot(args);
+                case "findslotwith" -> calendarCommands.findslotwith(args);
+                case "merge" -> calendarCommands.merge(args);
                 default -> System.out.println("Unknown calendar command.");
             }
         } catch (Exception e) {
@@ -40,6 +56,7 @@ public class CalendarManager {
         }
     }
 
+    // Основният цикъл на програмата – слуша за команди от потребителя
     public void run() {
         System.out.println("Добре дошли в Личен Календар!");
         while (true) {
@@ -49,6 +66,7 @@ public class CalendarManager {
             String command = tokens[0].toLowerCase();
             currentArguments = tokens.length > 1 ? tokens[1] : "";
 
+            // Опит за изпълнение на базова команда
             Runnable action = commands.get(command);
             if (action != null) {
                 action.run();
@@ -60,6 +78,7 @@ public class CalendarManager {
         }
     }
 
+    // Отваря съществуващ файл или създава нов
     private void open() {
         if (isOpen) {
             System.out.println("Моля, първо затворете текущия файл с командата 'close'.");
@@ -108,7 +127,7 @@ public class CalendarManager {
         }
     }
 
-
+    // Затваря отворения файл и нулира календара
     private void close() {
         if (!isOpen) {
             System.out.println("Няма отворен файл.");
@@ -120,6 +139,7 @@ public class CalendarManager {
         System.out.println("Successfully closed.");
     }
 
+    // Запазва календара в текущия файл
     private void save() {
         if (!isOpen) {
             System.out.println("Няма отворен файл.");
@@ -129,6 +149,7 @@ public class CalendarManager {
         System.out.println("Successfully saved " + openedFile);
     }
 
+    // Запазва календара в нов файл
     private void saveAs() {
         if (!isOpen) {
             System.out.println("Няма отворен файл.");
@@ -143,6 +164,7 @@ public class CalendarManager {
         System.out.println("Successfully saved " + openedFile);
     }
 
+    // Извежда списък с поддържани команди
     private void help() {
         System.out.println("The following commands are supported:");
         System.out.println("open <file>     opens <file>");
@@ -153,11 +175,13 @@ public class CalendarManager {
         System.out.println("exit            exits the program");
     }
 
+    // Изход от приложението
     private void exit() {
         System.out.println("Exiting the program...");
         System.exit(0);
     }
 
+    // Метод за реално записване на събитията във файл
     private void saveToFile(String path) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
             for (Event e : calendar.getEvents()) {
