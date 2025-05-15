@@ -1,3 +1,5 @@
+package Core;
+
 import java.util.*;
 import java.time.*;
 import java.util.Scanner;
@@ -9,6 +11,7 @@ public class MyCalendar {
 
     // Сет от дати, отбелязани като почивни
     private Set<LocalDate> holidays = new HashSet<>();
+
 
     // Добавя ново събитие към календара
     public void book(LocalDate date, LocalTime start, LocalTime end, String name, String note) {
