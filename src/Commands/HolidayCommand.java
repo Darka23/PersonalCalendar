@@ -5,13 +5,26 @@ import Core.MyCalendar;
 
 import java.time.LocalDate;
 
+/**
+ * Команда за отбелязване на ден като почивен в календара.
+ */
 public class HolidayCommand implements BaseCommand {
     private final CalendarContext context;
 
+    /**
+     * Създава команда за задаване на почивен ден.
+     *
+     * @param context контекстът, съдържащ календара
+     */
     public HolidayCommand(CalendarContext context) {
         this.context = context;
     }
 
+    /**
+     * Отбелязва посочената дата като почивна.
+     *
+     * @param args масив с 1 аргумент – дата (yyyy-MM-dd)
+     */
     @Override
     public void execute(String[] args) {
         if (args.length < 1) {

@@ -9,13 +9,27 @@ import java.io.FileReader;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Команда за обединяване на текущия календар с календар от файл.
+ */
 public class MergeCommand implements BaseCommand {
     private final CalendarContext context;
 
+    /**
+     * Създава команда за сливане на календари.
+     *
+     * @param context контекстът, съдържащ основния календар
+     */
     public MergeCommand(CalendarContext context) {
         this.context = context;
     }
 
+    /**
+     * Зарежда втори календар от подадения файл и го слива с текущия,
+     * като при нужда иска потвърждение от потребителя при конфликт.
+     *
+     * @param args масив с 1 аргумент – път до файл с друг календар
+     */
     @Override
     public void execute(String[] args) {
         if (args.length < 1) {

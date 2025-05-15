@@ -1,6 +1,15 @@
 package Commands;
 
+/**
+ * Команда за извеждане на списък с всички поддържани команди.
+ */
 public class HelpCommand implements BaseCommand {
+
+    /**
+     * Извежда списък с наличните команди и тяхното предназначение.
+     *
+     * @param args не се използват
+     */
     @Override
     public void execute(String[] args) {
         System.out.println("The following commands are supported:");

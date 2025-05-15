@@ -6,13 +6,27 @@ import java.time.LocalTime;
 import Core.CalendarContext;
 import Core.MyCalendar;
 
+
+/**
+ * Команда за премахване на събитие от календара.
+ */
 public class UnbookCommand implements BaseCommand {
     private final CalendarContext context;
 
+    /**
+     * Създава команда за изтриване на събитие.
+     *
+     * @param context споделеният контекст на приложението
+     */
     public UnbookCommand(CalendarContext context) {
         this.context = context;
     }
 
+    /**
+     * Изпълнява командата. Премахва събитие по дата и начален/краен час.
+     *
+     * @param args масив с 3 аргумента: дата, начален час, краен час
+     */
     @Override
     public void execute(String[] args) {
         if (args.length < 3) {

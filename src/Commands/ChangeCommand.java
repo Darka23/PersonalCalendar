@@ -6,13 +6,26 @@ import Core.MyCalendar;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Команда за промяна на поле в съществуващо събитие.
+ */
 public class ChangeCommand implements BaseCommand {
     private final CalendarContext context;
 
+    /**
+     * Създава команда за редактиране на събитие.
+     *
+     * @param context контекстът с достъп до календара
+     */
     public ChangeCommand(CalendarContext context) {
         this.context = context;
     }
 
+    /**
+     * Изпълнява промяната на дадено поле на събитие.
+     *
+     * @param args масив с 5 аргумента – дата, начален час, краен час, поле за промяна, нова стойност
+     */
     @Override
     public void execute(String[] args) {
         if (args.length < 5) {

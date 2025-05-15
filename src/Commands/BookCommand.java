@@ -4,15 +4,26 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import Core.CalendarContext;
-import Core.MyCalendar;
 
+/**
+ * Команда за добавяне на ново събитие в календара.
+ */
 public class BookCommand implements BaseCommand {
     private final CalendarContext context;
 
+    /**
+     * Конструктор, който инициализира командата с контекст.
+     *
+     * @param context контекст, съдържащ календара и състоянието на приложението
+     */
     public BookCommand(CalendarContext context) {
         this.context = context;
     }
 
+    /**
+     * Изпълнява командата за добавяне на събитие.
+     * Добавя събитие в календара, ако аргументите са валидни.
+     */
     @Override
     public void execute(String[] args) {
         if (args.length < 5) {

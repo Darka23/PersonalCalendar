@@ -8,13 +8,26 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+/**
+ * Команда за намиране на първия свободен времеви слот между две дати.
+ */
 public class FindSlotCommand implements BaseCommand {
     private final CalendarContext context;
 
+    /**
+     * Създава команда за търсене на свободен времеви интервал.
+     *
+     * @param context контекстът, съдържащ календара
+     */
     public FindSlotCommand(CalendarContext context) {
         this.context = context;
     }
 
+    /**
+     * Търси първия свободен времеви интервал с дадена продължителност.
+     *
+     * @param args масив с 3 аргумента – начална дата, крайна дата, продължителност в минути
+     */
     @Override
     public void execute(String[] args) {
         if (args.length < 3) {

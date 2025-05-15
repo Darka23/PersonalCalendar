@@ -7,13 +7,26 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Команда за записване на текущия календар във вече отворения файл.
+ */
 public class SaveCommand implements BaseCommand {
     private final CalendarContext context;
 
+    /**
+     * Създава команда за записване на събития във файл.
+     *
+     * @param context контекстът с календар и информация за файла
+     */
     public SaveCommand(CalendarContext context) {
         this.context = context;
     }
 
+    /**
+     * Записва съдържанието на календара във вече отворения файл.
+     *
+     * @param args не се използват
+     */
     @Override
     public void execute(String[] args) {
         if (!context.isOpen) {
@@ -25,6 +38,11 @@ public class SaveCommand implements BaseCommand {
         System.out.println("Successfully saved " + context.openedFile);
     }
 
+    /**
+     * Помощен метод за записване на всички събития от календара във файл.
+     *
+     * @param path пътят към файла, в който се записва
+     */
     private void saveToFile(String path) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
             for (Event e : context.calendar.getEvents()) {

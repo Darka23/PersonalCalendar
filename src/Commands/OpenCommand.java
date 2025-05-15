@@ -7,13 +7,27 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Команда за отваряне на файл с календар.
+ * <p>Ако файлът не съществува, се създава нов празен файл и празен календар.</p>
+ */
 public class OpenCommand implements BaseCommand {
     private final CalendarContext context;
 
+    /**
+     * Създава команда за отваряне или създаване на календарен файл.
+     *
+     * @param context контекстът, в който се съхранява текущото състояние
+     */
     public OpenCommand(CalendarContext context) {
         this.context = context;
     }
 
+    /**
+     * Зарежда календар от подадения файл. Ако файлът не съществува, създава нов.
+     *
+     * @param args масив с 1 аргумент – път до файл
+     */
     @Override
     public void execute(String[] args) {
         if (context.isOpen) {

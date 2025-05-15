@@ -2,30 +2,57 @@ package Core;
 
 import java.util.*;
 import java.time.*;
-import java.util.Scanner;
 
+/**
+ * Основен клас, представляващ личен календар.
+ * <p>
+ * Поддържа събития, почивни дни, справки, търсене на свободно време
+ * и логика за обединяване с друг календар.
+ */
 public class MyCalendar {
 
-    // Списък с всички събития в календара
+    /**
+     * Списък с всички събития в календара.
+     */
     private List<Event> events = new ArrayList<>();
 
-    // Сет от дати, отбелязани като почивни
+    /**
+     * Множество от дати, отбелязани като почивни.
+     */
     private Set<LocalDate> holidays = new HashSet<>();
 
-
-    // Добавя ново събитие към календара
+    /**
+     * Добавя ново събитие към календара.
+     *
+     * @param date  дата на събитието
+     * @param start начален час
+     * @param end   краен час
+     * @param name  име на събитието
+     * @param note  бележка
+     */
     public void book(LocalDate date, LocalTime start, LocalTime end, String name, String note) {
         events.add(new Event(date, start, end, name, note));
     }
 
-    //Премахва събитие по дата и час
+    /**
+     * Премахва събитие от календара по дата и начален/краен час.
+     *
+     * @param date  дата на събитието
+     * @param start начален час
+     * @param end   краен час
+     */
     public void unbook(LocalDate date, LocalTime start, LocalTime end) {
         events.removeIf(e -> e.getDate().equals(date) &&
                 e.getStartTime().equals(start) &&
                 e.getEndTime().equals(end));
     }
 
-    // Връща списък с всички събития за конкретна дата, подредени по час
+    /**
+     * Връща всички събития за дадена дата, подредени по начален час.
+     *
+     * @param date датата, за която се търсят събития
+     * @return списък със събитията за деня
+     */
     public List<Event> agenda(LocalDate date) {
         List<Event> result = new ArrayList<>();
         for (Event e : events) {
@@ -37,7 +64,15 @@ public class MyCalendar {
         return result;
     }
 
-    // Променя дадено поле на събитие
+    /**
+     * Променя конкретно поле на съществуващо събитие.
+     *
+     * @param date      дата на събитието
+     * @param start     начален час
+     * @param end       краен час
+     * @param field     полето за промяна: date, starttime, endtime, name, note
+     * @param newValue  нова стойност
+     */
     public void change(LocalDate date, LocalTime start, LocalTime end, String field, String newValue) {
         for (Event e : events) {
             if (e.getDate().equals(date) &&
@@ -45,28 +80,23 @@ public class MyCalendar {
                     e.getEndTime().equals(end)) {
 
                 switch (field.toLowerCase()) {
-                    case "date":
-                        e.setDate(LocalDate.parse(newValue));
-                        break;
-                    case "starttime":
-                        e.setStartTime(LocalTime.parse(newValue));
-                        break;
-                    case "endtime":
-                        e.setEndTime(LocalTime.parse(newValue));
-                        break;
-                    case "name":
-                        e.setName(newValue);
-                        break;
-                    case "note":
-                        e.setNote(newValue);
-                        break;
+                    case "date" -> e.setDate(LocalDate.parse(newValue));
+                    case "starttime" -> e.setStartTime(LocalTime.parse(newValue));
+                    case "endtime" -> e.setEndTime(LocalTime.parse(newValue));
+                    case "name" -> e.setName(newValue);
+                    case "note" -> e.setNote(newValue);
                 }
                 break;
             }
         }
     }
 
-    // Търси събития по ключова дума (в име или бележка)
+    /**
+     * Търси събития, съдържащи ключова дума в името или бележката.
+     *
+     * @param keyword дума за търсене
+     * @return списък с намерените събития
+     */
     public List<Event> find(String keyword) {
         List<Event> result = new ArrayList<>();
         for (Event e : events) {
@@ -77,12 +107,22 @@ public class MyCalendar {
         return result;
     }
 
-    // Маркира ден като почивен
+    /**
+     * Отбелязва дадена дата като почивен ден.
+     *
+     * @param date датата за отбелязване
+     */
     public void holiday(LocalDate date) {
         holidays.add(date);
     }
 
-    // Изчислява колко часа заетост има за всеки ден от даден интервал
+    /**
+     * Изчислява часовете заетост за всеки ден от даден период.
+     *
+     * @param from начална дата
+     * @param to   крайна дата
+     * @return карта от дати към обща заетост (в часове)
+     */
     public Map<LocalDate, Long> busydays(LocalDate from, LocalDate to) {
         Map<LocalDate, Long> busyHours = new HashMap<>();
         for (LocalDate date = from; !date.isAfter(to); date = date.plusDays(1)) {
@@ -97,15 +137,21 @@ public class MyCalendar {
         return busyHours;
     }
 
-    // Търси първия свободен времеви слот между от и до с дадена продължителност
+    /**
+     * Намира първия свободен времеви интервал в даден период.
+     *
+     * @param fromDate начална дата
+     * @param toDate   крайна дата
+     * @param duration минимална продължителност
+     * @return свободен интервал или празен резултат, ако няма такъв
+     */
     public Optional<LocalDateTime[]> findslot(LocalDate fromDate, LocalDate toDate, Duration duration) {
         for (LocalDate date = fromDate; !date.isAfter(toDate); date = date.plusDays(1)) {
             if (holidays.contains(date)) continue;
 
             List<Event> dayEvents = agenda(date);
-            dayEvents.sort(Comparator.comparing(Event::getStartTime));
+            LocalTime lastEnd = LocalTime.of(8, 0); // Работен ден от 08:00
 
-            LocalTime lastEnd = LocalTime.of(8, 0); // работен ден от 08:00
             for (Event e : dayEvents) {
                 if (Duration.between(lastEnd, e.getStartTime()).compareTo(duration) >= 0) {
                     return Optional.of(new LocalDateTime[]{
@@ -115,7 +161,7 @@ public class MyCalendar {
                 }
                 lastEnd = e.getEndTime();
             }
-            // Проверка дали има време след последното събитие до края на деня (17:00)
+
             if (Duration.between(lastEnd, LocalTime.of(17, 0)).compareTo(duration) >= 0) {
                 return Optional.of(new LocalDateTime[]{
                         LocalDateTime.of(date, lastEnd),
@@ -126,17 +172,22 @@ public class MyCalendar {
         return Optional.empty();
     }
 
-    // Търси свободен слот между два календара
+    /**
+     * Намира общ свободен интервал между текущия календар и друг.
+     *
+     * @param otherCalendar втори календар
+     * @param fromDate      начален ден
+     * @param toDate        краен ден
+     * @param duration      желаната продължителност
+     * @return общо свободно време, ако има такова
+     */
     public Optional<LocalDateTime[]> findslotwith(MyCalendar otherCalendar, LocalDate fromDate, LocalDate toDate, Duration duration) {
         for (LocalDate date = fromDate; !date.isAfter(toDate); date = date.plusDays(1)) {
             if (holidays.contains(date) || otherCalendar.holidays.contains(date)) continue;
 
-            List<Event> dayEventsThis = agenda(date);
-            List<Event> dayEventsOther = otherCalendar.agenda(date);
-
             List<Event> allEvents = new ArrayList<>();
-            allEvents.addAll(dayEventsThis);
-            allEvents.addAll(dayEventsOther);
+            allEvents.addAll(agenda(date));
+            allEvents.addAll(otherCalendar.agenda(date));
             allEvents.sort(Comparator.comparing(Event::getStartTime));
 
             LocalTime lastEnd = LocalTime.of(8, 0);
@@ -151,6 +202,7 @@ public class MyCalendar {
                     lastEnd = e.getEndTime();
                 }
             }
+
             if (Duration.between(lastEnd, LocalTime.of(17, 0)).compareTo(duration) >= 0) {
                 return Optional.of(new LocalDateTime[]{
                         LocalDateTime.of(date, lastEnd),
@@ -161,7 +213,11 @@ public class MyCalendar {
         return Optional.empty();
     }
 
-    // Обединява текущия календар с друг, като пита потребителя при конфликт
+    /**
+     * Обединява текущия календар с друг, като при конфликт иска потвърждение от потребителя.
+     *
+     * @param otherCalendar календарът, който се обединява
+     */
     public void merge(MyCalendar otherCalendar) {
         Scanner scanner = new Scanner(System.in);
         for (Event e : otherCalendar.events) {
@@ -194,7 +250,11 @@ public class MyCalendar {
         }
     }
 
-    // Връща списъка с всички събития (за записване или справки)
+    /**
+     * Връща всички събития в календара.
+     *
+     * @return списък със събития
+     */
     public List<Event> getEvents() {
         return events;
     }
