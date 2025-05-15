@@ -147,7 +147,8 @@ public class MyCalendar {
      */
     public Optional<LocalDateTime[]> findslot(LocalDate fromDate, LocalDate toDate, Duration duration) {
         for (LocalDate date = fromDate; !date.isAfter(toDate); date = date.plusDays(1)) {
-            if (holidays.contains(date)) continue;
+            if (holidays.contains(date))
+                continue;
 
             List<Event> dayEvents = agenda(date);
             LocalTime lastEnd = LocalTime.of(8, 0); // Работен ден от 08:00

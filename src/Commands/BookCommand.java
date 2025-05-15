@@ -27,7 +27,7 @@ public class BookCommand implements BaseCommand {
     @Override
     public void execute(String[] args) {
         if (args.length < 5) {
-            System.out.println("Usage: book <date (yyyy-dd-mm)> <start (hh:mm)> <end (hh:mm)> <name> <note>");
+            System.out.println("Usage: book <date (yyyy-MM-dd)> <start (hh:mm)> <end (hh:mm)> <name> <note>");
             return;
         }
 

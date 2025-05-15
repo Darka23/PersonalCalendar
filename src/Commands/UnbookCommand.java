@@ -30,7 +30,7 @@ public class UnbookCommand implements BaseCommand {
     @Override
     public void execute(String[] args) {
         if (args.length < 3) {
-            System.out.println("Usage: unbook <date (yyyy-dd-mm)> <start (hh:mm)> <end (hh:mm)>");
+            System.out.println("Usage: unbook <date (yyyy-MM-dd)> <start (hh:mm)> <end (hh:mm)>");
             return;
         }
 

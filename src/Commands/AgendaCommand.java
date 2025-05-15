@@ -30,7 +30,7 @@ public class AgendaCommand implements BaseCommand {
     @Override
     public void execute(String[] args) {
         if (args.length < 1) {
-            System.out.println("Usage: agenda <date (yyyy-dd-mm)>");
+            System.out.println("Usage: agenda <date (yyyy-MM-dd)>");
             return;
         }
 

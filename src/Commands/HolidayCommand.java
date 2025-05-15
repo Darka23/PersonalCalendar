@@ -28,7 +28,7 @@ public class HolidayCommand implements BaseCommand {
     @Override
     public void execute(String[] args) {
         if (args.length < 1) {
-            System.out.println("Usage: holiday <date (yyyy-dd-mm)>");
+            System.out.println("Usage: holiday <date (yyyy-MM-dd)>");
             return;
         }
 

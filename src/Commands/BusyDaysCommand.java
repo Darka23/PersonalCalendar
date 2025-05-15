@@ -29,7 +29,7 @@ public class BusyDaysCommand implements BaseCommand {
     @Override
     public void execute(String[] args) {
         if (args.length < 2) {
-            System.out.println("Usage: busydays <start date (yyyy-dd-mm)> <end date (yyyy-dd-mm)>");
+            System.out.println("Usage: busydays <start date (yyyy-MM-dd)> <end date (yyyy-MM-dd)>");
             return;
         }
 

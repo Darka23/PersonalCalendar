@@ -29,7 +29,7 @@ public class ChangeCommand implements BaseCommand {
     @Override
     public void execute(String[] args) {
         if (args.length < 5) {
-            System.out.println("Usage: change <date (yyyy-dd-mm)> <start (hh:mm)> <end (hh:mm)> <field> <new value>");
+            System.out.println("Usage: change <date (yyyy-MM-dd)> <start (hh:mm)> <end (hh:mm)> <field> <new value>");
             return;
         }
 

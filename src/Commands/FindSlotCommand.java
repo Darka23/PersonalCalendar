@@ -31,7 +31,7 @@ public class FindSlotCommand implements BaseCommand {
     @Override
     public void execute(String[] args) {
         if (args.length < 3) {
-            System.out.println("Usage: findslot <start date (yyyy-dd-mm)> <end date (yyyy-dd-mm)> <duration in minutes>");
+            System.out.println("Usage: findslot <start date (yyyy-MM-dd)> <end date (yyyy-MM-dd)> <duration in minutes>");
             return;
         }
 
