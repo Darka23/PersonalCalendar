@@ -60,7 +60,12 @@ public class MyCalendar {
                 result.add(e);
             }
         }
-        result.sort(Comparator.comparing(Event::getStartTime));
+        result.sort(new Comparator<Event>() {
+            @Override
+            public int compare(Event e1, Event e2) {
+                return e1.getStartTime().compareTo(e2.getStartTime());
+            }
+        });
         return result;
     }
 

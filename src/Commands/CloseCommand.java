@@ -25,14 +25,14 @@ public class CloseCommand implements BaseCommand {
      */
     @Override
     public void execute(String[] args) {
-        if (!context.isOpen) {
+        if (!context.isOpen()) {
             System.out.println("Няма отворен файл.");
             return;
         }
 
-        context.calendar = new MyCalendar();
-        context.openedFile = null;
-        context.isOpen = false;
+        context.setCalendar(new MyCalendar());
+        context.setOpenedFile(null);
+        context.setOpen(false);
         System.out.println("Successfully closed.");
     }
 }

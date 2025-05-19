@@ -29,7 +29,7 @@ public class SaveAsCommand implements BaseCommand {
      */
     @Override
     public void execute(String[] args) {
-        if (!context.isOpen) {
+        if (!context.isOpen()) {
             System.out.println("Няма отворен файл.");
             return;
         }
@@ -41,7 +41,7 @@ public class SaveAsCommand implements BaseCommand {
 
         String newPath = args[0];
         saveToFile(newPath);
-        context.openedFile = newPath;
+        context.setOpenedFile(newPath);
         System.out.println("Successfully saved " + newPath);
     }
 
@@ -52,7 +52,7 @@ public class SaveAsCommand implements BaseCommand {
      */
     private void saveToFile(String path) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
-            for (Event e : context.calendar.getEvents()) {
+            for (Event e : context.getCalendar().getEvents()) {
                 writer.write(String.format("%s|%s|%s|%s|%s",
                         e.getDate(), e.getStartTime(), e.getEndTime(), e.getName(), e.getNote()));
                 writer.newLine();

@@ -9,15 +9,40 @@ public class CalendarContext {
     /**
      * Пътят до в момента отворения файл, или {@code null}, ако няма отворен файл.
      */
-    public String openedFile = null;
+    private String openedFile = null;
 
     /**
      * Флаг, указващ дали в момента има отворен файл.
      */
-    public boolean isOpen = false;
+    private boolean isOpen = false;
 
     /**
      * Текущият календар, с който работи приложението.
      */
-    public MyCalendar calendar = new MyCalendar();
+    private MyCalendar calendar = new MyCalendar();
+
+
+    public String getOpenedFile() {
+        return openedFile;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public MyCalendar getCalendar() {
+        return calendar;
+    }
+
+    public void setOpenedFile(String openedFile) {
+        this.openedFile = openedFile;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
+
+    public void setCalendar(MyCalendar calendar) {
+        this.calendar = calendar;
+    }
 }

@@ -60,7 +60,7 @@ public class MergeCommand implements BaseCommand {
                 }
             }
 
-            context.calendar.merge(other);
+            context.getCalendar().merge(other);
             System.out.println("Merge completed.");
         } catch (Exception e) {
             System.out.println("Error reading file: " + e.getMessage());

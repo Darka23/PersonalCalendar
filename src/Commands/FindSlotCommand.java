@@ -39,7 +39,7 @@ public class FindSlotCommand implements BaseCommand {
             LocalDate from = LocalDate.parse(args[0]);
             LocalDate to = LocalDate.parse(args[1]);
             long minutes = Long.parseLong(args[2]);
-            Optional<LocalDateTime[]> slot = context.calendar.findslot(from, to, Duration.ofMinutes(minutes));
+            Optional<LocalDateTime[]> slot = context.getCalendar().findslot(from, to, Duration.ofMinutes(minutes));
 
             if (slot.isPresent()) {
                 LocalDateTime[] times = slot.get();

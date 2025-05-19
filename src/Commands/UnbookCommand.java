@@ -38,7 +38,7 @@ public class UnbookCommand implements BaseCommand {
             LocalDate date = LocalDate.parse(args[0]);
             LocalTime start = LocalTime.parse(args[1]);
             LocalTime end = LocalTime.parse(args[2]);
-            context.calendar.unbook(date, start, end);
+            context.getCalendar().unbook(date, start, end);
             System.out.println("Successfully unbooked event.");
         } catch (Exception e) {
             System.out.println("Invalid input: " + e.getMessage());

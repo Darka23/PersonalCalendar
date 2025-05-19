@@ -33,7 +33,7 @@ public class FindCommand implements BaseCommand {
             return;
         }
 
-        List<Event> found = context.calendar.find(String.join(" ", args).trim());
+        List<Event> found = context.getCalendar().find(String.join(" ", args).trim());
         if (found.isEmpty()) {
             System.out.println("No events found.");
         } else {

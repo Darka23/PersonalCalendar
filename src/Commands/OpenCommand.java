@@ -30,7 +30,7 @@ public class OpenCommand implements BaseCommand {
      */
     @Override
     public void execute(String[] args) {
-        if (context.isOpen) {
+        if (context.isOpen()) {
             System.out.println("Моля, първо затворете текущия файл с командата 'close'.");
             return;
         }
@@ -45,7 +45,7 @@ public class OpenCommand implements BaseCommand {
 
         if (file.exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                context.calendar = new MyCalendar();
+                context.setCalendar(new MyCalendar());
                 String line;
                 while ((line = reader.readLine()) != null) {
                     String[] parts = line.split("\\|");
@@ -55,11 +55,11 @@ public class OpenCommand implements BaseCommand {
                         LocalTime end = LocalTime.parse(parts[2]);
                         String name = parts[3];
                         String note = parts[4];
-                        context.calendar.book(date, start, end, name, note);
+                        context.getCalendar().book(date, start, end, name, note);
                     }
                 }
-                context.openedFile = path;
-                context.isOpen = true;
+                context.setOpenedFile(path);
+                context.setOpen(true);
                 System.out.println("Successfully opened " + path);
             } catch (Exception e) {
                 System.out.println("Error opening file: " + e.getMessage());
@@ -68,9 +68,9 @@ public class OpenCommand implements BaseCommand {
         } else {
             try {
                 file.createNewFile();
-                context.calendar = new MyCalendar();
-                context.openedFile = path;
-                context.isOpen = true;
+                context.setCalendar(new MyCalendar());
+                context.setOpenedFile(path);
+                context.setOpen(true);
                 System.out.println("File did not exist. Created new file: " + path);
             } catch (IOException e) {
                 System.out.println("Cannot create file: " + e.getMessage());

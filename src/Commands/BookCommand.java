@@ -37,7 +37,7 @@ public class BookCommand implements BaseCommand {
             LocalTime end = LocalTime.parse(args[2]);
             String name = args[3];
             String note = args[4];
-            context.calendar.book(date, start, end, name, note);
+            context.getCalendar().book(date, start, end, name, note);
             System.out.println("Successfully booked event.");
         } catch (Exception e) {
             System.out.println("Invalid input: " + e.getMessage());

@@ -36,7 +36,7 @@ public class AgendaCommand implements BaseCommand {
 
         try {
             LocalDate date = LocalDate.parse(args[0]);
-            List<Event> events = context.calendar.agenda(date);
+            List<Event> events = context.getCalendar().agenda(date);
             if (events.isEmpty()) {
                 System.out.println("No events for " + date);
             } else {

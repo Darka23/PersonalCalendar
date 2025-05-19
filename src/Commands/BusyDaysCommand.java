@@ -36,7 +36,7 @@ public class BusyDaysCommand implements BaseCommand {
         try {
             LocalDate from = LocalDate.parse(args[0]);
             LocalDate to = LocalDate.parse(args[1]);
-            Map<LocalDate, Long> stats = context.calendar.busydays(from, to);
+            Map<LocalDate, Long> stats = context.getCalendar().busydays(from, to);
 
             for (Map.Entry<LocalDate, Long> entry : stats.entrySet()) {
                 System.out.println(entry.getKey() + ": " + entry.getValue() + " часа");

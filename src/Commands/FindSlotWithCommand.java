@@ -63,7 +63,7 @@ public class FindSlotWithCommand implements BaseCommand {
             LocalDate to = LocalDate.parse(args[2]);
             long minutes = Long.parseLong(args[3]);
 
-            Optional<LocalDateTime[]> result = context.calendar.findslotwith(other, from, to, Duration.ofMinutes(minutes));
+            Optional<LocalDateTime[]> result = context.getCalendar().findslotwith(other, from, to, Duration.ofMinutes(minutes));
             if (result.isPresent()) {
                 LocalDateTime[] times = result.get();
                 System.out.println("Found mutual slot: " + " " + times[0] + " - " + " " + times[1]);

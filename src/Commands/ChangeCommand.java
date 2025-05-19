@@ -39,7 +39,7 @@ public class ChangeCommand implements BaseCommand {
             LocalTime end = LocalTime.parse(args[2]);
             String field = args[3];
             String newValue = args[4];
-            context.calendar.change(date, start, end, field, newValue);
+            context.getCalendar().change(date, start, end, field, newValue);
             System.out.println("Successfully changed event.");
         } catch (Exception e) {
             System.out.println("Invalid input.");
