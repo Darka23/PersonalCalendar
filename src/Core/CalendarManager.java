@@ -76,9 +76,16 @@ public class CalendarManager {
             String[] args = Arrays.copyOfRange(parts, 1, parts.length);
 
             BaseCommand cmd = commands.get(command);
-            if (cmd != null) {
+            if (cmd != null ) {
                 try {
-                    cmd.execute(args);
+                    if(context.isOpen() || command.equals("open") || command.equals("help")){
+                        cmd.execute(args);
+                    }
+                    else{
+                        System.out.println("A file must be open first");
+                        System.out.println("------------");
+                        System.out.println("If a file is not opened only 'open' and 'help' commands are available");
+                    }
                 } catch (Exception e) {
                     System.out.println("Error: " + e.getMessage());
                 }

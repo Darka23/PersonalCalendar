@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PersonalCalendar:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/PersonalCalendar_jar</output-path>
+    <root id="archive" name="PersonalCalendar.jar">
+      <element id="module-output" name="PersonalCalendar" />
+    </root>
+  </artifact>
+</component>
